@@ -51,6 +51,7 @@ class Pooling(BaseLayer):
     def backward(self, error_tensor):
         back_output = np.zeros(self.input_tensor.shape)
         for b in range(self.batch_size):
+            a_prev = self.input_tensor[b]
             for c in range(self.channel_size):
                 for i in range(0, self.row_path_size):
                     for j in range(0, self.col_path_size):
@@ -59,8 +60,9 @@ class Pooling(BaseLayer):
                         col_start = j * self.stride_col
                         col_end = col_start + self.pool_col
 
-                        prev_slice = error_tensor[b, c, row_start:row_end, col_start:col_end]
+                        prev_slice = a_prev[c, row_start:row_end, col_start:col_end]
                         mask = (prev_slice == np.max(prev_slice))
+
                         back_output[b, c, row_start:row_end, col_start:col_end] += np.multiply(mask, error_tensor[b, c, i, j])
 
         return back_output

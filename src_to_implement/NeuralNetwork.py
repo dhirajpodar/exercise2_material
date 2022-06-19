@@ -14,8 +14,6 @@ class NeuralNetwork:
         self.data_layer = None
         self.loss_layer = None
 
-
-
     def forward(self):
         input_tensor, self.label_tensor = self.data_layer.next()
         output_layer = np.copy(input_tensor)
@@ -32,6 +30,7 @@ class NeuralNetwork:
         if layer.trainable:
             optimizer = copy.deepcopy(self.optimizers)
             layer.optimizer = optimizer
+            layer.initialize(self.weights_initializer, self.bias_initializer)
         self.layers.append(layer)
 
     def train(self, iterations):
