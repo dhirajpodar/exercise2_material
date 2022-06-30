@@ -19,7 +19,7 @@ class Pooling(BaseLayer):
 
     def forward(self, input_tensor):
         self.input_tensor = input_tensor
-        padding = 0  # 'valid padding'
+        padding = 0
         self.batch_size = input_tensor.shape[0]
         self.channel_size = input_tensor.shape[1]
         self.stride_row = self.stride_shape[0]
